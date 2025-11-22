@@ -7,7 +7,7 @@ import uvicorn
 import os
 import pandas as pd
 from ml.app2 import treinar_modelo, avaliar_modelo, prever_novos_dados, carregar_modelo, normalizar_minmax, baixar_binario_do_blob
-from ml.azure_utils import upload_bytes
+from ml.azure_utils import upload_bytes, AZURE_CONTAINER_MODELS, AZURE_CONTAINER_UPLOADS
 from io import BytesIO
 from pathlib import Path
 
@@ -74,8 +74,8 @@ async def upload_csv(file: UploadFile, campo: str = Form(...)):
         y_bin = criptografar_df(y)
 
         # Jogando pro Blob
-        upload_bytes(X_bin, "X.bin", "uploads")
-        upload_bytes(y_bin, "y.bin", "uploads")
+        upload_bytes(X_bin, "X.bin", AZURE_CONTAINER_UPLOADS)
+        upload_bytes(y_bin, "y.bin", AZURE_CONTAINER_UPLOADS)
 
         # Treinando e pegando o URL do gráfico
         grafico_url = treinar_modelo("X.bin", "y.bin")
@@ -109,8 +109,8 @@ async def avaliar_csv(file: UploadFile, campo: str = Form(...)):
         y_bin = criptografar_df(y)
 
         # Faz upload
-        upload_bytes(X_bin, "X_avaliacao.bin", "uploads")
-        upload_bytes(y_bin, "y_avaliacao.bin", "uploads")
+        upload_bytes(X_bin, "X_avaliacao.bin", AZURE_CONTAINER_UPLOADS)
+        upload_bytes(y_bin, "y_avaliacao.bin", AZURE_CONTAINER_UPLOADS)
 
         # Aplica o modelo nos dados e salva o URL do gráfico gerado
         grafico_url = avaliar_modelo("X_avaliacao.bin", "y_avaliacao.bin")
@@ -134,7 +134,7 @@ async def prever_csv(file: UploadFile):
         # Criptografando
         X_bin = criptografar_df(df)
         # Dando upload no Blob
-        upload_bytes(X_bin, "X_previsao.bin", "uploads")
+        upload_bytes(X_bin, "X_previsao.bin", AZURE_CONTAINER_UPLOADS)
 
         # Aplicando dados no modelo e salvando o URL do gráfico
         grafico_url = prever_novos_dados("X_previsao.bin")
@@ -156,7 +156,7 @@ async def download_previsao_csv():
         
         # Pegando os arquivos
         X_previsao = baixar_binario_do_blob("X_previsao.bin")
-        modelo = carregar_modelo("modelo_final.pkl")
+        modelo = carregar_modelo("modelo_final.pkl", AZURE_CONTAINER_MODELS)
         
         # Fazendo a previsão
         X_norm = normalizar_minmax(X_previsao)

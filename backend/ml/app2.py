@@ -5,7 +5,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.metrics import mean_squared_error
 from fastapi import HTTPException
-from .azure_utils import download_bytes, upload_bytes, salvar_modelo, carregar_modelo, download_arquivo
+from .azure_utils import download_bytes, upload_bytes, salvar_modelo, carregar_modelo, download_arquivo, AZURE_CONTAINER_UPLOADS, AZURE_CONTAINER_MODELS, AZURE_CONTAINER_DATA
 from io import BytesIO
 
 # Função para descriptografar os dados
@@ -122,16 +122,16 @@ def treinar_modelo(X_blob="X.bin", y_blob="y.bin"):
     
     # Convertendo a imagem para bytes
     img_bytes = figura_para_bytes(fig)
-    # Salvndo ela no Blob
-    upload_bytes(img_bytes, "cv_plot2.png", "uploads")
+    # Salvando ela no Blob
+    upload_bytes(img_bytes, "cv_plot2.png", AZURE_CONTAINER_DATA)
     plt.close(fig)
     
     # Salva o modelo final treinado
     modelo_final = LinearRegression().fit(X, y)
-    salvar_modelo(modelo_final, "modelo_final.pkl")
+    salvar_modelo(modelo_final, "modelo_final.pkl", AZURE_CONTAINER_MODELS)
 
     # Retornando o ULR da imagem
-    blob_url = download_arquivo("cv_plot2.png", "uploads")
+    blob_url = download_arquivo("cv_plot2.png", AZURE_CONTAINER_DATA)
     return blob_url
 
 # Função Avaliar o Modelo
@@ -189,11 +189,11 @@ def avaliar_modelo(X_blob="X_avaliacao.bin", y_blob="y_avaliacao.bin"):
     
     # Jogando o gráfico no Blob 
     img_bytes = figura_para_bytes(fig)
-    upload_bytes(img_bytes, "avaliacao_plot.png", "uploads")
+    upload_bytes(img_bytes, "avaliacao_plot.png", AZURE_CONTAINER_DATA)
     plt.close(fig)
 
     # Recebendo o URL do gráfico do Blob e retornando ele
-    blob_url = download_arquivo("avaliacao_plot.png", "uploads")
+    blob_url = download_arquivo("avaliacao_plot.png", AZURE_CONTAINER_DATA)
     return blob_url
 
 # Função para prever novos dados
@@ -223,9 +223,9 @@ def prever_novos_dados(X_blob="X_previsao.bin"):
 
     # Jogando o gráfico no Blob
     img_bytes = figura_para_bytes(fig)
-    upload_bytes(img_bytes, "prever_plot.png", "uploads")
+    upload_bytes(img_bytes, "prever_plot.png", AZURE_CONTAINER_DATA)
     plt.close(fig)
 
     # Puando a URL do gráfico do Blob e retornando
-    blob_url = download_arquivo("prever_plot.png", "uploads")
+    blob_url = download_arquivo("prever_plot.png", AZURE_CONTAINER_DATA)
     return blob_url
