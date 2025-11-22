@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 env:
-  AZURE_WEBAPP_NAME: 'pi-backend-ml' # CONFIRA SE O NOME ESTÁ IGUAL AO DA FASE 2
+  AZURE_WEBAPP_NAME: 'pi-backend-ml-2025' # CONFIRA SE O NOME ESTÁ IGUAL AO DA FASE 2
 
 jobs:
   build-and-deploy:
