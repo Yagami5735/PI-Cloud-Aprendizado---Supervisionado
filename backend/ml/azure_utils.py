@@ -117,7 +117,7 @@ def download_bytes(blob_name: str, container_name: str) -> bytes:
         raise
 
 # Função para salvar o modelo linear
-def salvar_modelo(modelo, blob_name: str, container_name: str = "uploads"):
+def salvar_modelo(modelo, blob_name: str, container_name: str = "modelo"):
     """Salva um modelo treinado no Azure Blob Storage"""
     try:
         # Salve em bytes
@@ -132,7 +132,7 @@ def salvar_modelo(modelo, blob_name: str, container_name: str = "uploads"):
         raise
 
 # Função pra puxar o modelo do blob
-def carregar_modelo(blob_name: str, container_name: str = "uploads"):
+def carregar_modelo(blob_name: str, container_name: str = "modelo"):
     """Carrega um modelo do Azure Blob Storage"""
     try:
         # Baixa os bytes
