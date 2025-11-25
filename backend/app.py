@@ -151,9 +151,6 @@ async def prever_csv(file: UploadFile):
 @app.get("/prever/csv/")
 async def download_previsao_csv():
     try:
-        '''from ml.app2 import carregar_modelo, normalizar_minmax, baixar_binario_do_blob
-        import pandas as pd'''
-        
         # Pegando os arquivos
         X_previsao = baixar_binario_do_blob("X_previsao.bin")
         modelo = carregar_modelo("modelo_final.pkl", AZURE_CONTAINER_MODELS)

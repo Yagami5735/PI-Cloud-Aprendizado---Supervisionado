@@ -27,7 +27,7 @@ def validar_dados(X, y):
     # Checa se há mais que 20 dados
     if len(X) < 20:
         erros.append(f"Poucos dados ({len(X)} linhas). Mínimo: 20.")
-    # Checa se há tipos inválidos
+    # Checa se há tipos inválidos de variáveis
     tipos_invalidos = X.select_dtypes(exclude=[np.number]).columns.tolist()
     if tipos_invalidos:
         erros.append(f"Variáveis não numéricas: {tipos_invalidos}")
@@ -92,7 +92,7 @@ def treinar_modelo(X_blob="X.bin", y_blob="y.bin"):
         r2_test_lista.append(r2_test)
         rmse_test_lista.append(rmse_test)
 
-        # Plotando os gráficos com as métricas
+        # Plotando os gráficos com as métricas de cada fold
         ax1, ax2 = axes[i, 0], axes[i, 1]
         ax1.plot(y.values, label='Real', color='blue')
         ax1.plot(range(len(y_pred_train)), y_pred_train, color='red', label='Treino')
@@ -151,6 +151,7 @@ def avaliar_modelo(X_blob="X_avaliacao.bin", y_blob="y_avaliacao.bin"):
     
     # Valida os dados
     validar_dados(X, y)
+    
     # Aplica Min Max nos novos dados
     X_norm = normalizar_minmax(X)
     

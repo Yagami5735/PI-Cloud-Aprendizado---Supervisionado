@@ -15,7 +15,6 @@
   </header>
 
   <main>
-    <!-- ETAPA 1: Treinar Modelo -->
     <section id="etapa1">
       <h2>1. Upload de Arquivo para Treinar Modelo</h2>
       <div class="upload-container">
@@ -28,11 +27,11 @@
       </div>
       <button onclick="gerarModelo()">Treinar Modelo</button>
       <button onclick="resetarPagina()" class="btn-reset">Reset</button>
+      
       <div id="mensagem_treino" class="mensagem"></div>
       <img id="grafico_treino" src="" style="display:none;">
     </section>
 
-    <!-- ETAPA 2: Avaliar Modelo -->
     <section id="etapa2" style="display:none;">
       <h2>2. Upload de Arquivo para Avaliação</h2>
       <div class="upload-container">
@@ -48,7 +47,6 @@
       <img id="grafico_avaliacao" src="" style="display:none;">
     </section>
 
-    <!-- ETAPA 3: Previsão -->
     <section id="etapa3" style="display:none;">
       <h2>3. Upload de Arquivo para Previsão</h2>
       <div class="upload-container">
@@ -58,7 +56,7 @@
       <button onclick="preverNovosDados()">Prever</button>
       <div id="mensagem_previsao" class="mensagem"></div>
       <img id="grafico_previsao" src="" style="display:none;">
-    </section>
+      </section>
   </main>
 
   <footer>

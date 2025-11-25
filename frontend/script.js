@@ -1,12 +1,14 @@
 // URL do backend - ajuste automático para produção
 const BACKEND_URL = window.location.origin;
 
+// Função de Envio
 async function enviarArquivo(url, fileInputId, campoInputId, graficoId, mensagemId, proximaEtapaId) {
   const fileInput = document.getElementById(fileInputId);
   const campo = campoInputId ? document.getElementById(campoInputId).value : null;
   const mensagem = document.getElementById(mensagemId);
   const graficoImg = document.getElementById(graficoId);
 
+  // Validações iniciais
   if (!fileInput.files.length) {
     mensagem.textContent = "Selecione um arquivo!";
     mensagem.style.color = "red";
@@ -22,14 +24,17 @@ async function enviarArquivo(url, fileInputId, campoInputId, graficoId, mensagem
   mensagem.style.color = "blue";
   graficoImg.style.display = "none";
 
+  // Monta o FormData
   const formData = new FormData();
   formData.append("file", fileInput.files[0]);
   if (campoInputId) formData.append("campo", campo);
 
   try {
+    // Timeout de 2 minutos para evitar travamento eterno
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 120000);
-
+    
+    // Monta uma response
     const res = await fetch(url, {
       method: "POST",
       body: formData,
@@ -37,6 +42,7 @@ async function enviarArquivo(url, fileInputId, campoInputId, graficoId, mensagem
     });
     clearTimeout(timeoutId);
 
+    // Checa a response
     let data;
     try {
       data = await res.json();
@@ -47,6 +53,7 @@ async function enviarArquivo(url, fileInputId, campoInputId, graficoId, mensagem
       return;
     }
 
+    // Tratamento de erros vindos do Backend
     if (!res.ok) {
       let erros = [];
       if (data.mensagens) erros = data.mensagens;
@@ -58,6 +65,7 @@ async function enviarArquivo(url, fileInputId, campoInputId, graficoId, mensagem
       return;
     }
 
+    // Se der tudo certo, exibe o gráfico e a mensagem
     if (data.grafico_url) {
       graficoImg.src = data.grafico_url;
       graficoImg.style.display = "block";
@@ -66,6 +74,7 @@ async function enviarArquivo(url, fileInputId, campoInputId, graficoId, mensagem
     mensagem.textContent = data.message || "Sucesso!";
     mensagem.style.color = "green";
 
+    // Libera a próxima etapa se o ID foi passado
     if (proximaEtapaId) {
       document.getElementById(proximaEtapaId).style.display = "block";
     }
@@ -81,14 +90,17 @@ async function enviarArquivo(url, fileInputId, campoInputId, graficoId, mensagem
   }
 }
 
+// Chama a função "enviarArquivo" para os dados colocados na seção "upload"
 function gerarModelo() {
   enviarArquivo(`${BACKEND_URL}/upload/`, "file_treino", "campo_treino", "grafico_treino", "mensagem_treino", "etapa2");
 }
 
+// Chama a função "enviarArquivo" para os dados colocados na seção "avaliar"
 function avaliarModelo() {
   enviarArquivo(`${BACKEND_URL}/avaliar/`, "file_avaliacao", "campo_avaliacao", "grafico_avaliacao", "mensagem_avaliacao", "etapa3");
 }
 
+ // Chama a função "enviarArquivo" para os dados colocados na seção "prever" e busca os dados CSV para download
 function preverNovosDados() {
   enviarArquivo(`${BACKEND_URL}/prever/`, "file_previsao", null, "grafico_previsao", "mensagem_previsao", null);
   buscarDadosPrevisao();
@@ -97,7 +109,7 @@ function preverNovosDados() {
 // Variável global para armazenar os dados de previsão
 let dadosPrevisao = null;
 
-// FUNÇÃO PARA BUSCAR DADOS CSV DA PREVISÃO
+// Função para buscar os dados csv da previsão
 async function buscarDadosPrevisao() {
   try {
     const response = await fetch(`${BACKEND_URL}/prever/csv/`);
@@ -111,7 +123,7 @@ async function buscarDadosPrevisao() {
   }
 }
 
-// FUNÇÃO PARA MOSTRAR BOTÃO DE DOWNLOAD
+// Função para mostrar o botão de download do csv com previsão 
 function adicionarBotaoDownload() {
   // Remove o container anterior se existir
   const containerAnterior = document.getElementById('download-container');
@@ -131,7 +143,7 @@ function adicionarBotaoDownload() {
   etapa3.appendChild(downloadContainer);
 }
 
-//FUNÇÃO PARA BAIXAR O CSV
+// Função para baixar o csv com previsão
 function baixarCSV() {
   if (!dadosPrevisao) {
     alert('Nenhum dado de previsão disponível para download.');
@@ -154,7 +166,7 @@ function baixarCSV() {
   alert('CSV baixado com sucesso!');
 }
 
-// FUNÇÃO PARA RESETAR A PÁGINA
+// Função para resetar a página
 function resetarPagina() {
   // Esconde todas as etapas exceto a primeira
   document.getElementById('etapa1').style.display = 'block';
