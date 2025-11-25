@@ -1,6 +1,8 @@
 # Sistema de Processamento e Predição via Regressão Linear
 
-**Projeto Final — Disciplina: Computação em Nuvem** **Pontifícia Universidade Católica de Campinas (PUC-Campinas)**
+**Projeto Final — Disciplina: Computação em Nuvem e Aprendizado Supervisionado**  
+
+**Pontifícia Universidade Católica de Campinas (PUC-Campinas)**
 
 ## Equipe
 Edson Eduardo Ferreira — 23908965 — [edson.ef@puccampinas.edu.br](mailto:edson.ef@puccampinas.edu.br)
