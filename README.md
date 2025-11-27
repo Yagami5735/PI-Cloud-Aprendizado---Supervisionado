@@ -50,8 +50,10 @@ O sistema é agnóstico em relação aos dados.
 ## Demonstração
 <img width="796" height="3553" alt="pi-backend-ml azurewebsites net_" src="https://github.com/user-attachments/assets/d54b7f21-7115-4d1e-95ba-2eb610ab8e15" />
 
-## Referências
+Link para vídeo de demo: <a href="https://youtu.be/h56UgE-bfoo" target="_blank">https://youtu.be/h56UgE-bfoo</a>
 
+## Referências
+* **Relatório Completo:** [https://docs.google.com/document/d/1UYY2JB9GxEuDJIzdYVgwTwx19W1dUpOO6fSzSuvN8gU/edit?usp=sharing](https://docs.google.com/document/d/1UYY2JB9GxEuDJIzdYVgwTwx19W1dUpOO6fSzSuvN8gU/edit?usp=sharing)
 * **FastAPI Documentation:** [https://fastapi.tiangolo.com/](https://fastapi.tiangolo.com/)
 * **Scikit-Learn (Linear Models):** [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html)
 * **Pandas Documentation:** [https://pandas.pydata.org/docs/](https://pandas.pydata.org/docs/)
